@@ -1,3 +1,6 @@
+#ifndef __QUEUE_H__
+#define __QUEUE_H__
+
 #include "MKL46Z4.h"
 
 #define MAX_BUFFER 1024U
@@ -45,3 +48,5 @@ uint16_t QUEUE_pull(QueueHandle_t * Queue, uint8_t* des, uint16_t numofbytes){
 uint16_t QUEUE_numOfBytes(QueueHandle_t * Queue){
 	return Queue->count ;
 }
+
+#endif

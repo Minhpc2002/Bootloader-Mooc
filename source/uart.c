@@ -11,15 +11,23 @@ void UART0_IRQHandler(){
 }
 
 
-void UART_Init(){
+void UART_init(){
 	// something
 	// clear queue
+}
+
+/**
+ *	@brief Check to see if there is data to read
+ *	@return number of bytes in queue
+ */
+uint16_t UART_available(){
+	return QUEUE_numOfBytes(&Recv_Queue) ;
 }
 
 void UART_sendBytes(){
 	// something
 }
-void UART_sendString(){
+void UART_sendString(const char* str){
 	// something
 }
 void UART_getByte(){
@@ -35,6 +43,6 @@ void UART_getByte(){
  *	@param max_len maximum number of bytes to read
  *	@return number of bytes read success
  */
-void UART_getUtil(uint8_t* des, uint8_t chr, uint16_t max_len){
+void UART_getBytesUtil(uint8_t* des, uint8_t chr, uint16_t max_len){
 
 }
