@@ -1,7 +1,27 @@
 
 
 #include "main.h"
+#define BOOT_TABBLE_ADDRESS 0xFF00000		// Last sector (255)
 
+typedef enum {
+	LOAD_NEW_FIRMWARE	= 0u,
+	ERASE_SECTOR 		= 1u,
+	RESTORE_BACKUP		= 2u,
+	RECEIVE_DATA		= 3u
+}BootLoaderModeType;
+
+typedef struct{
+	uint8_t num ;
+	uint16_t firstsector ;
+	uint8_t bootable ;
+}PartitionType;
+
+typedef struct{
+	PartitionType main_partition;
+	PartitionType backup_partition ;
+}BootTableType;
+
+BootLoaderModeType bootloader_mode ;
 void main(){
 	// Init button 1 pin
 	PORT_Type Button_PORTconfig = {
@@ -26,61 +46,82 @@ void main(){
 		UART_sendString("Flash Mode\n") ;
 		// Wait for data to arrive
 		uint8_t buffer[100] ;
+		uint32_t sector_num ;
+		uint32_t num_of_sector ;
+		uint8_t ready_to_flash = 0 ;
 		while(1){
-			while(UART_available() != 0){
-				UART_getBytesUtil(buffer, '\n', 100) ;  // Read a line from uart buffer
-				switch(buffer[0]){
-				case 'L':		// Load new firmware
-
-					break;
-				case 'R':  		// Restore backup firmware
-
-					break;
-				case 'E':		// Erase sector
-					uint32_t sector_num ;
-					uint32_t num_of_sector ;
-					uint8_t status = 0 ;
-					// take sector number...
-					status = hex_to_num(&sector_num, buffer + 1, 4) ;
-						if(status == 0){
-							UART_sendString("Error\n") ;
-							break ;
-						}
-					//Take num of sector to erase
+			UART_getBytesUtil(buffer, '\n', 100) ;  // Read a line from uart buffer
+			switch(buffer[0]){
+			case 'L':
+				bootloader_mode = LOAD_NEW_FIRMWARE ;
+			case 'R':
+				bootloader_mode = RESTORE_BACKUP ;
+			case 'E':
+				bootloader_mode = ERASE_SECTOR ;
+				// take sector number...
+				uint8_t status = 0 ;
+				status = hex_to_num(&sector_num, buffer + 1, 4) ;
+					if(status == 0){
+						UART_sendString("Error\n") ;
+						break ;
+					}
+				//Take num of sector to erase
+				if(bootloader_mode == ERASE_SECTOR){
 					status = hex_to_num(&num_of_sector, buffer + 5, 4) ;
-						if(status == 0){
-							UART_sendString("Error\n") ;
-							break ;
-						}
-					//Erase
-					FLASH_eraseSector(sector_num) ;
-					break;
+					if(status == 0){
+						UART_sendString("Error\n") ;
+						break ;
+					}
 				}
+				break;
+			case 'S':
+				bootloader_mode == RECEIVE_DATA ;
+				break;
+			}
+
+			// Process
+			if(RECEIVE_DATA == bootloader_mode){
+
+			}
+			else if(LOAD_NEW_FIRMWARE == bootloader_mode){
+				//Check erase
+				// Ready to flash
+				UART_sendString("Ready\n") ;
+			}
+			else if(RESTORE_BACKUP == bootloader_mode){
+
+			}
+			else if(ERASE_SECTOR == bootloader_mode){
+
 			}
 		}
 	}
 	else{
-		// Find which sector to boot
-		uint32_t BootSectorNum ;
+		// Read Bootable
+		BootTableType BootTable ;
+		FLASH_read((uint8_t*)&BootTable, BOOT_TABBLE_ADDRESS, sizeof(BootTable)) ;
 		// Jump to Application code
-		BootToSector(BootSectorNum) ;
+		if( BOOT_FAIL == BootToSector(BootTable.main_partition.firstsector)){
+			while(1) ;
+		}
 	}
 }
 
 
 BOOT_STATUS BootToSector(uint32_t sector_num){
-	uint32_t MSP_value ;
+	uint32_t Top_SP ;
 	uint32_t reset_add ;
 	BOOT_STATUS status = BOOT_OK;
 	// Take main stack pointer reload value
-		MSP_value = FLASH_readWord(sector_num * 1024) ;
+		Top_SP = FLASH_readWord(sector_num * 1024) ;
 	// Take address of reset handler
 		reset_add =  FLASH_readWord(sector_num * 1024 + 4) ;
 	if(reset_add & 1){		// Check if the LSB bit of address if 1 (Thumb instruction set)
 		// Change VTOR
 			SCB->VTOR = (sector_num * 1024) << 7 ;
 		// Set new MSP
-			__set_MSP(MSP_value) ;
+			__set_MSP(Top_SP) ;
+			__set_PSP(Top_SP) ;
 		// jump to reset handler
 		((void (*) (void)) reset_add) () ;
 	}
