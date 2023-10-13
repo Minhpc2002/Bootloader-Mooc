@@ -22,7 +22,7 @@ typedef enum{
 	SREC_CHECKSUM_ERR,
 }SRECStatus_t;
 
-SREC_Status SREC_parse(SRECType* srec, uint8_t* line ){
+SREC_Status SREC_parse(SREC_t* srec, uint8_t* line ){
 	// Check type
 	// Check byte count
 	// Check checksum

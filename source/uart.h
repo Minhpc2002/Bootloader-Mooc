@@ -6,6 +6,8 @@
 
 void UART_init() ;
 
+void UART_Denit() ;
+
 void UART_available() ;
 
 void UART_sendBytes(uint8_t byte) ;
