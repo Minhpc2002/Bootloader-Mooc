@@ -57,7 +57,26 @@ void main(){
 							}
 							else{
 								status = BLD_HAVE_NOT_ERASE_YET ;
-								ready_to_flash = 0 ;
+								uint8_t new_partition ;
+								// Find where to save new firmware
+								if(1 == BootTable.current_boot){
+									new_partition = 0 ;
+								}
+								else{
+									new_partition = 1 ;
+								}
+								// Update boot table
+								BootTable.partition[new_partition].firstsector = start_sector ;
+								BootTable.current_boot = new_partition ;
+								BootTable.partition[new_partition].bootable = 1 ;
+								status = CreatBootTable(&BootTable) ;
+								if(BLD_OK == status){
+									ready_to_flash = 0 ;
+									status = BLD_READDY_TO_FLASH ;
+									//LOG(BLD_MESSAGE, "Flashed new firmware at: ") ;
+								}
+
+
 							}
 						}
 					}
@@ -110,27 +129,12 @@ void main(){
 							}
 							else if(S9 == data.type)
 							{
-								uint8_t new_partition ;
-								// Find where to save new firmware
-								if(1 == BootTable.current_boot){
-									new_partition = 0 ;
-								}
-								else{
-									new_partition = 1 ;
-								}
-								// Update boot table
-								BootTable.partition[new_partition].firstsector = data.address ;
-								BootTable.current_boot = new_partition ;
-								status = CreatBootTable(&BootTable) ;
-								if(BLD_OK == status){
-									//LOG(BLD_MESSAGE, "Flashed new firmware at: ") ;
-									status = BLD_FLASH_FINISH ;
-								}
+								status = BLD_FLASH_FINISH ;
 							}
 						}
 						else{
 							ready_to_flash = 0 ;
-							LOG(BLD_ERR_DATA) ;
+							status = BLD_ERR_DATA ;
 						}
 					}
 					else
