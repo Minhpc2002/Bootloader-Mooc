@@ -2,7 +2,6 @@
 #define _UART0_H_
 
 #include "MKL46Z4.h"
-#include "queue.h"
 
 #define UART0_RX_PIN    1
 #define UART0_TX_PIN    2
@@ -28,11 +27,12 @@ void UART_sendString(const char* str);
 
 uint8_t UART_getByte();
 
-void UART_getBytesUtil(uint8_t* des, uint8_t chr, uint16_t max_len);
+void UART_getBytesUtil(uint8_t* des, uint8_t chr, uint16_t max_len); 
 
 void UART0_DeInit();
 
 void Clock_DeInit();
 
 #endif /* _UART0_H_ */
+
 

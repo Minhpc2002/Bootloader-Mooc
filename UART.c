@@ -1,10 +1,17 @@
 
 #include "queue.h"
-#include "uart.h"
-#include "MKL46Z4.h"
 
 QueueHandle_t Recv_Queue ;
 
+void UART0_IRQHandler() 
+{
+    if (UART0_S1 & UART0_S1_RDRF_MASK) 
+    {
+        uint8_t data = UART0_D;
+
+        Queue_Push(&Recv_Queue, InputData);
+    }
+}
 
 void UART0_Clock2Mhz()
 {
@@ -94,36 +101,36 @@ uint16_t UART_available()
 	return Queue_numOfBytes(&Recv_Queue) ;
 }
 
-void UART_sendBytes(uint8_t byte)
+void UART_sendBytes(uint8_t byte) 
 {
-    while ((UART0_S1 & UART0_S1_TDRE_MASK));
-
-    UART0->D = byte;
+    while (!(UART0_S1 & UART0_S1_TDRE_MASK));
+    
+    UART0_D = byte;
 }
 
-void UART_sendString(const char* str)
+void UART_sendString(const char* str) 
 {
-    while (*str)
+    while (*str) 
 	{
-        UART_sendBytes(*str);
+        UART_sendBytes(*str); 
         str++;
     }
 }
 
-uint8_t UART_getByte(QueueHandle_t* Recv_Queue)
+uint8_t UART_getByte() 
 {
     uint8_t data;
-
-    if((Recv_Queue->Count) == 0)
+    
+    if (Queue->count == 0) 
 	{
         return 0;
     }
-
-    if (Queue_numOfBytes(&Recv_Queue) > 0)
+    
+    if (QUEUE_numOfBytes(&UART_Queue) > 0) 
 	{
-        Queue_Pull(&Recv_Queue, &data);
+        QUEUE_Pull(&Recv_Queue, &data);
         return data;
-    }
+    }  
 }
 
 
@@ -135,27 +142,28 @@ uint8_t UART_getByte(QueueHandle_t* Recv_Queue)
  *	@param max_len maximum number of bytes to read
  *	@return number of bytes read success
  */
-void UART_getBytesUtil(uint8_t* des, uint8_t chr, uint16_t max_len)
+void UART_getBytesUtil(uint8_t* des, uint8_t chr, uint16_t max_len) 
 {
     uint16_t len = 0;
     uint8_t data;
-    while (len < max_len)
+    while (len < max_len) 
 	{
-        while ((UART0_S1 & UART0_S1_RDRF_MASK)== 0);
-
-        UART0->D = data;
+        while (!(UART0_S1 & UART0_S1_RDRF_MASK));
+        
+        data = UART0_D;
 
         des[len] = data;
         len++;
 
-        if (data == chr)
+        if (data == chr) 
 		{
-            break;
+            break; 
         }
     }
 
-    if (len < max_len)
+    if (len < max_len) 
 	{
         des[len] = '\0';
     }
 }
+
