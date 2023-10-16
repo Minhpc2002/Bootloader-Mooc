@@ -270,12 +270,13 @@ BootloaderStatus_t CreatBootTable(BootTableType* boot_table){
 	if(FLASH_OK == status)
 	{
 		uint8_t* ptr = &boot_table ;
-			for(int i = 0;  i< sizeof(boot_table)/ 4; i ++){
-				status = FLASH_writeWord(ptr + 4* i, address) ;
+			for(int i = 0;  i< sizeof(boot_table)/ 4; i ++)
+			{
+				status = FLASH_writeWord(ptr + 4 * i, BOOT_TABLE_ADDRESS + 4 * i) ;
 				if(FLASH_OK != status) break ;
 			}
 	}
-	return (FLASH_OK == status)? BLD_OK: BLD_ERR_CREATBOOT ;
+	return (FLASH_OK == status) ? BLD_OK : BLD_ERR_CREATBOOT ;
 }
 
 
