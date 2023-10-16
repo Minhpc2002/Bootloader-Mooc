@@ -3,20 +3,50 @@
 #include "uart.h"
 #include "MKL46Z4.h"
 
+static volatile uint32_t DataRecevie = 0;
+static uint8_t FirmReceiveOk = 0;
+static uint8_t tempRX;
+
+
 QueueHandle_t Recv_Queue ;
 
+void UART0_DriverIRQHandler()
+{
+    /* code */
+    FirmReceiveOk = 0;
+
+    // recevie data
+    tempRX = UART_getByte();
+
+    // check data
+    if(((47 <tempRX) && (tempRX < 58)) || ((64 <tempRX) && (tempRX < 71)))
+    {
+      // write to Queue
+      Queue_Push(&Recv_Queue , tempRX);
+
+      DataRecevie++;
+    }
+    // check end of file
+    else if(tempRX == 'P')
+    {
+        FirmReceiveOk = 1;
+    }
+
+    /* Clear Pending Interrupt */
+    NVIC_ClearPendingIRQ(UART0_IRQn);
+}
 
 void UART0_Clock2Mhz()
 {
-  //set IRCS = 4MHz IRC and divide 2
-  MCG->C2 &= ~(MCG_C2_IRCS_MASK);            //clear IRCS
-  MCG->C2 |= MCG_C2_IRCS(1);                 // set IRCS
+	//set IRCS = 4MHz IRC and divide 2
+	MCG->C2 &= ~(MCG_C2_IRCS_MASK);            //clear IRCS
+	MCG->C2 |= MCG_C2_IRCS(1);                 // set IRCS
 
-  // Enables the internal reference clock for use as MCGIRCLK
-  MCG->C1 &= ~MCG_C1_IRCLKEN_MASK;           // clear IRCLKEN
-  MCG->C1 |= MCG_C1_IRCLKEN_MASK;            //set IRCLKEN
+	// Enables the internal reference clock for use as MCGIRCLK
+	MCG->C1 &= ~MCG_C1_IRCLKEN_MASK;           // clear IRCLKEN
+	MCG->C1 |= MCG_C1_IRCLKEN_MASK;            //set IRCLKEN
 
-   /*set UART0_Clock = MCGIRCLK*/
+	/*set UART0_Clock = MCGIRCLK*/
     SIM->SOPT2 = (SIM->SOPT2 & ~SIM_SOPT2_UART0SRC_MASK) | SIM_SOPT2_UART0SRC(3);
 
     /* Enable clock for PORTA & UART0 */
@@ -28,17 +58,17 @@ void UART0_Clock2Mhz()
 
 void UART0_PortInit()
 {
-  /* Clear PCR_MUX Register */
-  PORTA->PCR[UART0_RX_PIN] &= ~PORT_PCR_MUX_MASK;
-  PORTA->PCR[UART0_TX_PIN] &= ~PORT_PCR_MUX_MASK;
+	/* Clear PCR_MUX Register */
+	PORTA->PCR[UART0_RX_PIN] &= ~PORT_PCR_MUX_MASK;
+	PORTA->PCR[UART0_TX_PIN] &= ~PORT_PCR_MUX_MASK;
 
-  /* Set Pin PA1 & PA2 = ALT2 Mode */
-  PORTA->PCR[UART0_RX_PIN] |= PORT_PCR_MUX(2);
-  PORTA->PCR[UART0_TX_PIN] |= PORT_PCR_MUX(2);
+	/* Set Pin PA1 & PA2 = ALT2 Mode */
+	PORTA->PCR[UART0_RX_PIN] |= PORT_PCR_MUX(2);
+	PORTA->PCR[UART0_TX_PIN] |= PORT_PCR_MUX(2);
 
-  /* Set up Pull-up for UART Pin */
-  PORTA->PCR[UART0_RX_PIN] |= PORT_PCR_PE(1) | PORT_PCR_PS(1);
-  PORTA->PCR[UART0_TX_PIN] |= PORT_PCR_PE(1) | PORT_PCR_PS(1);
+	/* Set up Pull-up for UART Pin */
+	PORTA->PCR[UART0_RX_PIN] |= PORT_PCR_PE(1) | PORT_PCR_PS(1);
+	PORTA->PCR[UART0_TX_PIN] |= PORT_PCR_PE(1) | PORT_PCR_PS(1);
 }
 
 
@@ -76,13 +106,13 @@ void UART0_SetFrame()
 
 void UART0_Init()
 {
-  UART0_Clock2Mhz();
-  UART0_PortInit();
-  UART0_SetBaudrate();
-  UART0_SetFrame();
+	UART0_Clock2Mhz();
+	UART0_PortInit();
+	UART0_SetBaudrate();
+	UART0_SetFrame();
 
-  /* Enable Transmitter & Receiver */
-  UART0->C2 |= UART0_C2_TE(1) | UART0_C2_RE(1);
+	/* Enable Transmitter & Receiver */
+	UART0->C2 |= UART0_C2_TE(1) | UART0_C2_RE(1);
 }
 
 /**
@@ -96,7 +126,7 @@ uint16_t UART_available()
 
 void UART_sendBytes(uint8_t byte)
 {
-    while ((UART0_S1 & UART0_S1_TDRE_MASK));
+    while ((UART0->S1 & UART0_S1_TDRE_MASK));
 
     UART0->D = byte;
 }
@@ -119,11 +149,11 @@ uint8_t UART_getByte(QueueHandle_t* Recv_Queue)
         return 0;
     }
 
-    if (Queue_numOfBytes(&Recv_Queue) > 0)
+    if ((Recv_Queue->Count) > 0)
 	{
-        Queue_Pull(&Recv_Queue, &data);
-        return data;
+        Queue_Pull(Recv_Queue, &data);
     }
+    return data;
 }
 
 
@@ -138,12 +168,12 @@ uint8_t UART_getByte(QueueHandle_t* Recv_Queue)
 void UART_getBytesUtil(uint8_t* des, uint8_t chr, uint16_t max_len)
 {
     uint16_t len = 0;
-    uint8_t data;
+    uint16_t data;
     while (len < max_len)
 	{
-        while ((UART0_S1 & UART0_S1_RDRF_MASK)== 0);
+        while ((UART0->S1 & UART0_S1_RDRF_MASK)== 0);
 
-        UART0->D = data;
+       data = UART0->D;
 
         des[len] = data;
         len++;
