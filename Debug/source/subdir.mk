@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../source/flash.c \
 ../source/gpio.c \
 ../source/main.c \
 ../source/mtb.c \
@@ -13,6 +14,7 @@ C_SRCS += \
 ../source/uart.c 
 
 C_DEPS += \
+./source/flash.d \
 ./source/gpio.d \
 ./source/main.d \
 ./source/mtb.d \
@@ -22,6 +24,7 @@ C_DEPS += \
 ./source/uart.d 
 
 OBJS += \
+./source/flash.o \
 ./source/gpio.o \
 ./source/main.o \
 ./source/mtb.o \
@@ -43,7 +46,7 @@ source/%.o: ../source/%.c source/subdir.mk
 clean: clean-source
 
 clean-source:
-	-$(RM) ./source/gpio.d ./source/gpio.o ./source/main.d ./source/main.o ./source/mtb.d ./source/mtb.o ./source/port.d ./source/port.o ./source/queue.d ./source/queue.o ./source/semihost_hardfault.d ./source/semihost_hardfault.o ./source/uart.d ./source/uart.o
+	-$(RM) ./source/flash.d ./source/flash.o ./source/gpio.d ./source/gpio.o ./source/main.d ./source/main.o ./source/mtb.d ./source/mtb.o ./source/port.d ./source/port.o ./source/queue.d ./source/queue.o ./source/semihost_hardfault.d ./source/semihost_hardfault.o ./source/uart.d ./source/uart.o
 
 .PHONY: clean-source
 

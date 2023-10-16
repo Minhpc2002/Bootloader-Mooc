@@ -133,7 +133,7 @@ void UART_sendBytes(uint8_t byte)
 
 void UART_sendString(const char* str)
 {
-    while (*str)
+    while (*str != '\n')
 	{
         UART_sendBytes(*str);
         str++;

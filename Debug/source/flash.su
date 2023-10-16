@@ -1,0 +1,5 @@
+../source/flash.c:4:16:FLASH_eraseSector	40	static
+../source/flash.c:37:16:FLASH_writeWord	32	static
+../source/flash.c:84:10:FLASH_readWord	16	static
+../source/flash.c:89:6:FLASH_read	32	static
+../source/flash.c:97:16:FLASH_checkErase	16	static
