@@ -1,24 +1,25 @@
+#ifndef _FLASH_H_
+#define _FLASH_H_
 
+#include "MKL46Z4.h"
 
 typedef enum{
-	FLASH_READ_ONE_SECTION = 01u,
-	FLASH_PROGRAM_CHECK = 02u,
-	//something else
-}FLASH_CMD;
-
-typedef enum {
-	FLASH_OK,
-	FLASH_ERR,
-}FLASH_Status_t;
-FLASH_Status_t FLASH_eraseSector(uint32_t sector_num, uint32_t num_of_sectors);
-
-FLASH_Status_t FLASH_writeWord(uint32_t data, uint32_t address) ;
-
-uint32_t FLASH_readWord(uint32_t address){
-	return *((uint32_t*) address) ;
-}
-
-void FLASH_read(uint8_t* des, uint32_t address, uint16_t len) ;
+	FLASH_OK 						= 0u,
+	FLASH_ERR 						= 1u,
+	FLASH_CHECK_ERASE_FAIL,
+	FLASH_ERASE_FAIL,
+	FLASH_WRITE_FAIL,
+}Flash_Status_t;
 
 
-FLASH_Status_t FLASH_checkErase(uint8_t sector_num, uint8_t num_of_sectors) ;
+Flash_Status_t Flash_writeWord(uint32_t address, uint32_t* data) ;
+Flash_Status_t Flash_eraseSector(uint8_t sector_num);
+Flash_Status_t Flash_eraseMultiSectors(uint8_t start_sector, uint8_t num_of_sectors) ;
+Flash_Status_t Flash_checkSectorsErased(uint8_t sector_num, uint8_t num_of_sectors) ;
+
+
+// notice wait write process complete before read
+#define Flash_readWord(address) (*((uint32_t*)(address)))
+
+
+#endif /* _FLASH_H_ */

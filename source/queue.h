@@ -3,50 +3,39 @@
 
 #include "MKL46Z4.h"
 
-#define MAX_BUFFER 1024U
-
+#define TRUE	(1U)
+#define FALSE 	(0U)
 
 typedef struct{
-	uint8_t buffer[MAX_BUFFER] ; // Array to store elements
-	uint16_t count ; // Current number of element in the queue
-	uint16_t front ; // Index of the next element at beginning of the queue
-	uint16_t rear ; // Index of the next element to add to the queue
+	uint8_t *QueueArr ; // Array to store elements
+	uint16_t Count ; // Current number of element in the queue
+	uint16_t Front ; // Index of the next element at beginning of the queue
+	uint16_t Rear ; // Index of the next element to add to the queue
+	uint8_t Size;
 }QueueHandle_t;
+
+
 
 /**
  *	@brief reset all parameter of queue to 0
  *	@param Queue pointer to handle struct of queue
  *	@return void
  */
-void QUEUE_clear(QueueHandle_t* Queue){
-	// set count = 0. front = 0. rear = 0
-}
+void Queue_clear(QueueHandle_t* Queue);
 
-/**
- *	@brief add multi bytes to end ofqueue
- *	@param Queue pointer to handle struct of queue
- *	@param byte pointer to array of bytes to add
- *	@param numofbytes number of bytes to add
- *	@return void
- */
-void QUEUE_push(QueueHandle_t * Queue, uint8_t* byte, uint16_t numofbytes){
+void Queue_init(QueueHandle_t *Queue, uint8_t* buf, uint32_t size);
 
-}
+uint8_t Queue_isFull( QueueHandle_t *Queue);
 
-/**
- *	@brief take multi bytes from beginning of queue
- *	@param Queue pointer to handle struct of queue
- *	@param byte pointer to destination
- *	@param numofbytes number of bytes to read
- *	@return number of bytes read success
- */
-uint16_t QUEUE_pull(QueueHandle_t * Queue, uint8_t* des, uint16_t numofbytes){
+uint8_t Queue_isEmpty( QueueHandle_t *Queue);
 
-}
+uint8_t Queue_pushByte(QueueHandle_t *Queue, uint8_t byte);
 
+int16_t Queue_pullByte(QueueHandle_t *Queue) ;
 
-uint16_t QUEUE_numOfBytes(QueueHandle_t * Queue){
-	return Queue->count ;
-}
+uint16_t Queue_pullUntil(QueueHandle_t *Queue, uint8_t *OutputData, uint8_t chr);
+
+uint16_t Queue_numOfBytes(QueueHandle_t *Queue);
+
 
 #endif

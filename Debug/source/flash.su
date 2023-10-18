@@ -1,0 +1,4 @@
+../source/flash.c:16:16:Flash_writeWord	24	static
+../source/flash.c:61:16:Flash_eraseSector	24	static
+../source/flash.c:106:16:Flash_checkSectorsErased	32	static
+../source/flash.c:154:16:Flash_eraseMultiSectors	32	static

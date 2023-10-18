@@ -92,6 +92,8 @@ typedef struct {
 
 void PORT_InitPin(PORT_Type* PORTx, PORT_PinNumberType pinnum, const PORT_PinConfigType* config);
 
+void PORT_DenitPin(PORT_Type* PORTx, PORT_PinNumberType pinnum) ;
+
 void EXTI_PORTA_SetCallback(EXTI_CallbackType callback);
 
 void EXTI_PORTC_SetCallback(EXTI_CallbackType callback);
