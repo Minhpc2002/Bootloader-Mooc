@@ -5,19 +5,23 @@
 #include "port.h"
 #include "gpio.h"
 #include "flash.h"
-
-#include "string.h"
+#include "srec.h"
+#include "stdio.h"
 
 #define BOOT_TABLE_ADDRESS (0x3FC00)		// Last sector (255)
 #define BOOT_TABLE_SIGN (0xABCD)
+#define BOOT_WORD_ADDRESS (0x3FC00)
 
+
+#define BOTTOM_RAM_ADDRESS (0x1FFFE000)
+#define TOP_RAM_ADDRESS (0x20006000)
 
 typedef enum{
 	BLD_OK = 0u,
-	BLD_ERR = 1u,
+	BLD_ERR_DATA = 1u,
 	BLD_READDY_TO_FLASH,
+	BLD_ERR_ERASED,
 	BLD_FLASH_ERR,
-	BLD_ERR_DATA,
 	BLD_FLASH_FINISH,
 	BLD_SYNTAX_ERR,
 	BLD_HAVE_NOT_ERASE_YET,
@@ -26,29 +30,7 @@ typedef enum{
 	BLD_BOOT_FAIL,
 }BootloaderStatus_t;
 
-
-typedef enum {
-	LOAD_NEW_FIRMWARE	= 0u,
-	ERASE_SECTOR 		= 1u,
-	RESTORE_BACKUP		= 2u,
-	RECEIVE_DATA		= 3u
-}BootLoaderModeType;
-
-typedef struct{
-	uint16_t firstsector ;		// Start sector of this partition
-	uint8_t bootable ;			// There any firmware on this partition
-}__attribute__ ((aligned (4))) PartitionType;
-
-typedef struct{
-	uint32_t boottable_sign ; 	// specified table
-	uint8_t current_boot;		// current partition to boot
-	PartitionType partition[2];	// list of partitions
-}__attribute__ ((aligned (4))) BootTableType;
-
-
 void Init_System() ;
 void Denit_System() ;
-BootloaderStatus_t CreatBootTable(BootTableType* boot_table) ;
 BootloaderStatus_t BootToSector(uint32_t sector_num) ;
-BootloaderStatus_t hex_to_num(uint32_t* des, uint8_t* str, uint8_t num_of_bytes) ;
-
+void LOG(BootloaderStatus_t status, char* str ) ;

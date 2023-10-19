@@ -1,0 +1,3 @@
+../source/srec.c:5:23:digit_to_hex	16	static
+../source/srec.c:15:9:hex_to_byte	32	static
+../source/srec.c:36:15:SREC_parse	48	static

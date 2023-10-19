@@ -1,0 +1,8 @@
+../source/queue.c:3:6:Queue_clear	16	static
+../source/queue.c:10:6:Queue_init	24	static
+../source/queue.c:19:9:Queue_isFull	24	static
+../source/queue.c:29:9:Queue_isEmpty	24	static
+../source/queue.c:39:9:Queue_pushByte	24	static
+../source/queue.c:69:9:Queue_pullByte	24	static
+../source/queue.c:160:10:Queue_pullUntil	40	static
+../source/queue.c:175:10:Queue_numOfBytes	16	static

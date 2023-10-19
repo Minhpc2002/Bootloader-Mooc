@@ -25,6 +25,25 @@ __STATIC_INLINE void PORT_EnableClock(PORT_Type* PORTx){
 		SIM->SCGC5 |= SIM_SCGC5_PORTE_MASK ;
 	}
 }
+
+__STATIC_INLINE void PORT_DisableClock(PORT_Type* PORTx){
+	if(PORTA == PORTx){
+		SIM->SCGC5 &= ~SIM_SCGC5_PORTA_MASK ;
+	}
+	else if(PORTB == PORTx){
+		SIM->SCGC5 &= ~SIM_SCGC5_PORTB_MASK ;
+	}
+	else if(PORTC == PORTx){
+		SIM->SCGC5 &= ~SIM_SCGC5_PORTC_MASK ;
+	}
+	else if(PORTD == PORTx){
+		SIM->SCGC5 &= ~SIM_SCGC5_PORTD_MASK ;
+	}
+	else if(PORTE == PORTx){
+		SIM->SCGC5 &= ~SIM_SCGC5_PORTE_MASK ;
+	}
+}
+
 __STATIC_INLINE void PORT_SetAlternateMode(PORT_Type* PORTx,PORT_PinNumberType pinnum, PORT_ALTModeType ALTMode){
 	PORTx->PCR[(uint8_t)pinnum] &= ~PORT_PCR_MUX_MASK ; // Clear MUX field
 	PORTx->PCR[(uint8_t)pinnum] |= PORT_PCR_MUX((uint8_t)ALTMode) ;
@@ -80,6 +99,17 @@ void PORT_InitPin(PORT_Type* PORTx, PORT_PinNumberType pinnum, const PORT_PinCon
 				NVIC_EnableIRQ(PORTC_PORTD_IRQn);
 			}
 		}
+}
+
+void PORT_DenitPin(PORT_Type* PORTx, PORT_PinNumberType pinnum)
+{
+	PORT_SetAlternateMode(PORTx,pinnum, PORT_AFT_0) ;
+	// Select Pull resistor
+	PORT_SetPullMode(PORTx, pinnum, PORT_NOPULL) ;
+	// Select slew rate of output
+	PORT_SetSlewRate(PORTx, pinnum, PORT_SPEED_LOW) ;
+	// Disable interrupt
+	PORT_SetInterruptMode(PORTx, pinnum, PORT_INTERRUPT_DISABLE) ;
 }
 
 void EXTI_PORTA_SetCallback(EXTI_CallbackType callback){
