@@ -14,7 +14,7 @@
 
 
 #define BOTTOM_RAM_ADDRESS (0x1FFFE000)
-#define TOP_RAM_ADDRESS (0x20005FFF)
+#define TOP_RAM_ADDRESS (0x20006000)
 
 typedef enum{
 	BLD_OK = 0u,

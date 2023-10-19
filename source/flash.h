@@ -12,7 +12,7 @@ typedef enum{
 }Flash_Status_t;
 
 
-Flash_Status_t Flash_writeWord(uint32_t address, uint32_t* data) ;
+Flash_Status_t Flash_writeWord(uint32_t address, uint32_t data) ;
 Flash_Status_t Flash_eraseSector(uint8_t sector_num);
 Flash_Status_t Flash_eraseMultiSectors(uint8_t start_sector, uint8_t num_of_sectors) ;
 Flash_Status_t Flash_checkSectorsErased(uint8_t sector_num, uint8_t num_of_sectors) ;

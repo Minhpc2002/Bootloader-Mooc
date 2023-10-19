@@ -60,8 +60,7 @@ void main(){
 					{
 						Flash_eraseSector(BOOT_WORD_ADDRESS / 1024) ;
 
-						uint32_t value = start_sector ;
-						Flash_writeWord(BOOT_WORD_ADDRESS, &value) ;
+						Flash_writeWord(BOOT_WORD_ADDRESS, start_sector) ;
 
 						sprintf(temp, "Reversed to previous firmware at sector 0x%x\n", start_sector) ;
 
@@ -80,10 +79,14 @@ void main(){
 
 						if(BLD_OK == status)
 						{
-							if(FLASH_OK == Flash_eraseMultiSectors(start_sector, num_of_sectors ))
+							NVIC_DisableIRQ(UART0_IRQn) ;
+							flash_err = Flash_eraseMultiSectors(start_sector, num_of_sectors ) ;
+							NVIC_EnableIRQ(UART0_IRQn) ;
+
+							if(FLASH_OK == flash_err)
 							{
 								status = BLD_OK ;
-								sprintf(temp, "Erased at %d sector from 0x%x\n",num_of_sectors,  start_sector) ;
+								sprintf(temp, "Erased at %d sector from 0x%x\n", num_of_sectors,  start_sector) ;
 								LOG(BLD_MESSAGE, temp) ;
 							}
 							else{
@@ -103,12 +106,14 @@ void main(){
 							{
 								for(int i = 0; i < data.byte_count ; i += 4){
 									// Write to flash memory
-									flash_err = Flash_writeWord(data.address + i, (uint32_t*)(data.data + i)) ;
+
+									flash_err = Flash_writeWord(data.address + i, *((uint32_t*)(data.data + i))) ;
+
 									if(FLASH_OK != flash_err)
 									{
-//										status = BLD_FLASH_ERR ;
-//										ready_to_flash = 0 ;
-//										break;
+										status = BLD_FLASH_ERR ;
+										ready_to_flash = 0 ;
+										break;
 									}
 									else {
 										status = BLD_OK ;
@@ -150,48 +155,45 @@ void main(){
 
 		char temp[100] ;
 		sprintf(temp, "Try to boot at sector: %d\n", bootsector) ;
+		UART_sendString(temp) ;
 
-		LOG(BLD_MESSAGE, temp);
+		PORT_DenitPin(PORTC, 3) ;
 
-		if( BLD_OK != BootToSector(bootsector))
+		uint32_t Top_SP ;
+		uint32_t reset_add ;
+
+		// Take main stack pointer reload value
+		Top_SP = Flash_readWord(bootsector * 1024) ;
+
+		// Take address of reset handler
+		reset_add =  Flash_readWord(bootsector * 1024 + 4) ;
+
+		sprintf(temp, "\nsector_num: %d reset add: %x TopSP: %x \n",bootsector,  reset_add, Top_SP) ;
+		UART_sendString(temp) ;
+
+		/* Add some delay*/
+		int j = 1000000 ;
+		while(j --) ;
+
+		// Check if the LSB bit of address if 1 (Thumb instruction set)
+		if((reset_add & 1) && (Top_SP >= BOTTOM_RAM_ADDRESS) && (Top_SP <= TOP_RAM_ADDRESS) )
+		{
+				// Change VTOR
+			SCB->VTOR = (bootsector * 1024) ;
+				// Set new MSP
+			__set_MSP(Top_SP) ;
+		//	__set_PSP(Top_SP) ;
+
+			UART_denit() ;
+			// jump to reset handler
+			((void (*) (void)) (reset_add)) () ;
+		}
+		else
 		{
 			LOG(BLD_MESSAGE, "Fail to boot\n");
 			while(1) ;
 		}
 	}
-}
-
-
-BootloaderStatus_t BootToSector(uint32_t sector_num){
-	uint32_t Top_SP ;
-	uint32_t reset_add ;
-	BootloaderStatus_t status = BLD_OK;
-	// Take main stack pointer reload value
-		Top_SP = Flash_readWord(sector_num * 1024) ;
-
-	// Take address of reset handler
-		reset_add =  Flash_readWord(sector_num * 1024 + 4) ;
-
-	char temp[100] ;
-	sprintf(temp, "\nsector_num: %d reset add: %x TopSP: %x \n",sector_num,  reset_add, Top_SP) ;
-	UART_sendString(temp) ;
-
-	// Check if the LSB bit of address if 1 (Thumb instruction set)
-	if((reset_add & 1) && (Top_SP >= BOTTOM_RAM_ADDRESS) && (Top_SP <= TOP_RAM_ADDRESS) )
-	{
-		status = BLD_OK ;
-		// Change VTOR
-			SCB->VTOR = (sector_num * 1024) << 7 ;
-		// Set new MSP
-			__set_MSP(Top_SP) ;
-//			__set_PSP(Top_SP) ;
-		// jump to reset handler
-		((void (*) (void)) (reset_add - 1)) () ;
-	}
-	else{
-		status = BLD_BOOT_FAIL ;	// This is not address
-	}
-	return status ;
 }
 
 

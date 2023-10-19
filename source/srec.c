@@ -68,11 +68,13 @@ SREC_Status_t SREC_parse(SREC_t* srec, uint8_t* line ){
 			{
 				sum += srec->byte_count ;
 				/*Read address*/
+				srec->address = 0 ;
 				for(int i = 0 ; i < address_len; i ++){
 					status = hex_to_byte(&byte, &line[4 + 2*i]) ;
 					if(0 == status)
 					{
 						sum += byte ;
+//						srec->address |= ((uint32_t)byte) << ( 8 * i) ;
 						*((uint8_t*)&(srec->address) + address_len - i - 1) = byte ;
 					}
 					else break ;
