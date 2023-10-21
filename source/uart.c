@@ -1,7 +1,7 @@
 
 #include "uart.h"
 #include "queue.h"
-#define MAX_BUFFER_LEN (50u)
+#define MAX_BUFFER_LEN (100u)
 static QueueHandle_t rev_queue ;
 static QueueHandle_t trans_queue;
 static uint8_t rev_buffer[MAX_BUFFER_LEN] ;
@@ -64,9 +64,18 @@ void UART_init(){
 		UART0->BDL  = 42 ;  // Baudrate = 9600
 		UART0->C4 = (UART0->C4 & ~UART0_C4_OSR_MASK) | UART0_C4_OSR(9) ;
 
+		/* Baudrate = 9600 */
+		UART0->BDL  = 42 ;  // Baudrate = 9600
+		UART0->C4 = (UART0->C4 & ~UART0_C4_OSR_MASK) | UART0_C4_OSR(9) ;
+
 		/* baudrate = 115200 */
 //		UART0->BDL  = 5 ;
 //		UART0->C4 = (UART0->C4 & ~UART0_C4_OSR_MASK) | UART0_C4_OSR(6) ;
+
+		/* baudrate = 57600 */
+//		UART0->BDL  = 7 ;
+//		UART0->C4 = (UART0->C4 & ~UART0_C4_OSR_MASK) | UART0_C4_OSR(9) ;
+
 
 		// Data lenght: default 8 bit
 
@@ -96,12 +105,15 @@ void UART_init(){
 
 void UART_denit()
 {
-	// Disable receicer
-	UART0->C2 &= ~UART_C2_RE_MASK ;
+
 	// Disable receiver interrupt
 	UART0->C2 &= ~UART_C2_RIE_MASK ;
+	// Disable transmiter interrupt
+	UART0->C2 &= ~UART_C2_TIE_MASK ;
 	// Disable transmiter
 	UART0->C2 &= ~UART_C2_TE_MASK ;
+	// Disable receicer
+	UART0->C2 &= ~UART_C2_RE_MASK ;
 
 	NVIC_DisableIRQ(UART0_IRQn) ;
 }

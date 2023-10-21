@@ -8,9 +8,7 @@
 #include "srec.h"
 #include "stdio.h"
 
-#define BOOT_TABLE_ADDRESS (0x3FC00)		// Last sector (255)
-#define BOOT_TABLE_SIGN (0xABCD)
-#define BOOT_WORD_ADDRESS (0x3FC00)
+#define BOOT_WORD_ADDRESS (0x3800)  // sector 14
 
 
 #define BOTTOM_RAM_ADDRESS (0x1FFFE000)
@@ -19,8 +17,8 @@
 typedef enum{
 	BLD_OK = 0u,
 	BLD_ERR_DATA = 1u,
-	BLD_READDY_TO_FLASH,
 	BLD_ERR_ERASED,
+	BLD_READDY_TO_FLASH,
 	BLD_FLASH_ERR,
 	BLD_FLASH_FINISH,
 	BLD_SYNTAX_ERR,

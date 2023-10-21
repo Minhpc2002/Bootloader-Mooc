@@ -1,7 +1,5 @@
-H:\Projects\Projects MCUXPresso IDE\Mooc Bootloader\Mooc_Project\CMSIS/core_cm0plus.h:733:22:__NVIC_EnableIRQ	16	static
-H:\Projects\Projects MCUXPresso IDE\Mooc Bootloader\Mooc_Project\CMSIS/core_cm0plus.h:769:22:__NVIC_DisableIRQ	16	static
 H:\Projects\Projects MCUXPresso IDE\Mooc Bootloader\Mooc_Project\CMSIS/core_cm0plus.h:923:22:__NVIC_SystemReset	8	static
-../source/main.c:7:6:main	304	static
-../source/main.c:201:6:Init_System	16	static
-../source/main.c:219:6:Denit_System	8	static
-../source/main.c:226:6:LOG	40	static
+../source/main.c:6:6:main	304	static
+../source/main.c:198:6:Init_System	16	static
+../source/main.c:221:6:Denit_System	8	static
+../source/main.c:228:6:LOG	40	static

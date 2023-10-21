@@ -2,7 +2,6 @@
 
 
 Flash_Status_t flash_err = FLASH_OK ;
-volatile uint32_t count = 0 ;
 
 void main(){
 	Init_System() ;
@@ -11,7 +10,8 @@ void main(){
 	if(GPIO_PIN_RESET == GPIO_ReadPin(GPIOC, GPIO_PIN_3)){
 	// Bootloader mode
 
-		LOG(BLD_MESSAGE, "Entered bootloader : version: Bootloader V1\n") ;
+		LOG(BLD_MESSAGE, "\n********* Bootloader V1 ***********\n \
+				"		 "Entered bootloader! \n") ;
 
 		uint8_t buffer[100] ;
 		uint8_t ready_to_flash = 0 ;
@@ -43,7 +43,7 @@ void main(){
 							if(FLASH_OK == Flash_checkSectorsErased(start_sector, num_of_sectors))
 							{
 								// Ready to flash
-								status = BLD_OK ;
+								status = BLD_READDY_TO_FLASH ;
 								ready_to_flash = 1 ;
 							}
 							else{
@@ -79,14 +79,12 @@ void main(){
 
 						if(BLD_OK == status)
 						{
-							NVIC_DisableIRQ(UART0_IRQn) ;
 							flash_err = Flash_eraseMultiSectors(start_sector, num_of_sectors ) ;
-							NVIC_EnableIRQ(UART0_IRQn) ;
 
 							if(FLASH_OK == flash_err)
 							{
 								status = BLD_OK ;
-								sprintf(temp, "Erased at %d sector from 0x%x\n", num_of_sectors,  start_sector) ;
+								sprintf(temp, "Erased at %d sector from 0x%02x\n", num_of_sectors,  start_sector) ;
 								LOG(BLD_MESSAGE, temp) ;
 							}
 							else{
@@ -102,7 +100,7 @@ void main(){
 
 						if(SREC_OK == SREC_parse(&data, buffer))
 						{
-							if(S1 == data.type )
+							if(S1 == data.type || S2 == data.type || S3 == data.type)
 							{
 								for(int i = 0; i < data.byte_count ; i += 4){
 									// Write to flash memory
@@ -117,11 +115,10 @@ void main(){
 									}
 									else {
 										status = BLD_OK ;
-										count ++ ;
 									}
 								}
 							}
-							else if(S9 == data.type)
+							else if(S9 == data.type || S8 == data.type || S7 == data.type)
 							{
 								status = BLD_FLASH_FINISH ;
 								ready_to_flash = 0 ;
@@ -132,11 +129,12 @@ void main(){
 							status = BLD_ERR_DATA ;
 						}
 					}
-//					else
-//					{
-//						status = BLD_HAVE_NOT_ERASE_YET ;
-//					}
+					else
+					{
+						status = BLD_HAVE_NOT_ERASE_YET ;
+					}
 					break ;
+
 				case 'T':
 					__NVIC_SystemReset() ;
 					break;
@@ -144,17 +142,16 @@ void main(){
 					status = BLD_SYNTAX_ERR ;
 			}
 
-
 			LOG(status, NULL) ;
 
 		}
 	}
 	else{
 		// Jump to Application code
-		uint8_t bootsector = Flash_readWord(BOOT_WORD_ADDRESS) ;
+		uint32_t bootsector = Flash_readWord(BOOT_WORD_ADDRESS) ;
 
 		char temp[100] ;
-		sprintf(temp, "Try to boot at sector: %d\n", bootsector) ;
+		sprintf(temp, "***Try to boot at sector: %d\n", bootsector) ;
 		UART_sendString(temp) ;
 
 		PORT_DenitPin(PORTC, 3) ;
@@ -168,11 +165,11 @@ void main(){
 		// Take address of reset handler
 		reset_add =  Flash_readWord(bootsector * 1024 + 4) ;
 
-		sprintf(temp, "\nsector_num: %d reset add: %x TopSP: %x \n",bootsector,  reset_add, Top_SP) ;
+		sprintf(temp, "***Reset handler: 0x%x ... TopSP: 0x%x \n",  reset_add, Top_SP) ;
 		UART_sendString(temp) ;
 
 		/* Add some delay*/
-		int j = 1000000 ;
+		int j = 100000 ;
 		while(j --) ;
 
 		// Check if the LSB bit of address if 1 (Thumb instruction set)
@@ -182,7 +179,7 @@ void main(){
 			SCB->VTOR = (bootsector * 1024) ;
 				// Set new MSP
 			__set_MSP(Top_SP) ;
-		//	__set_PSP(Top_SP) ;
+			__set_PSP(Top_SP) ;
 
 			UART_denit() ;
 			// jump to reset handler
@@ -190,7 +187,7 @@ void main(){
 		}
 		else
 		{
-			LOG(BLD_MESSAGE, "Fail to boot\n");
+			UART_sendString("Fail to boot\n") ;
 			while(1) ;
 		}
 	}
@@ -199,6 +196,11 @@ void main(){
 
 
 void Init_System(){
+
+	/* Clock config */
+
+
+	//
 	// Init button 1 pin
 	PORT_PinConfigType Button_PORTconfig = {
 				.ALTMode = PORT_ALT_GPIO ,
@@ -225,7 +227,7 @@ void Denit_System(){
 
 void LOG(BootloaderStatus_t status, char* str ){
 	char temp[10];
-	sprintf(temp, " [%d] ", status) ;
+	sprintf(temp, "[%d] ", status) ;
 	if(status != BLD_OK && status != BLD_MESSAGE)
 	{
 		UART_sendString(temp) ;
@@ -236,37 +238,38 @@ void LOG(BootloaderStatus_t status, char* str ){
 	case BLD_OK :
 		break;
 	case BLD_READDY_TO_FLASH:
-		UART_sendString(" Ready to Flash\n") ;
+		UART_sendString("Ready to Flash\n") ;
 		break;
 	case BLD_ERR_ERASED:
-		UART_sendString(" Erase sector error\n") ;
+		UART_sendString("Erase sector error\n") ;
 		break ;
 	case BLD_FLASH_ERR:
-		UART_sendString(" Error while flashing word\n") ;
+		UART_sendString("Error while flashing word\n") ;
 		break;
 	case BLD_ERR_DATA:
-		UART_sendString(" Wrong data line\n") ;
+		UART_sendString("Wrong data line\n") ;
 		break;
 	case BLD_FLASH_FINISH:
-		UART_sendString(" Flash finished\n") ;
+		UART_sendString("Flash finished\n") ;
 		break;
 	case BLD_SYNTAX_ERR:
-		UART_sendString(" Syntax error\n") ;
+		UART_sendString("Syntax error\n") ;
 		break;
 	case BLD_HAVE_NOT_ERASE_YET:
-		UART_sendString(" Sectors have not erased yet\n") ;
+		UART_sendString("Sectors have not erased yet\n") ;
 		break;
 	case BLD_ERR_CREATBOOT:
-		UART_sendString(" Wrong data line\n") ;
+		UART_sendString("Wrong data line\n") ;
 		break;
 	case BLD_BOOT_FAIL:
-		UART_sendString(" Boot to sector fail\n") ;
+		UART_sendString("Boot to sector fail\n") ;
 		break;
 	case BLD_MESSAGE:
 		break;
 	}
 	if(str != NULL)
 	{
+		UART_sendString("***") ;
 		UART_sendString(str) ;
 	}
 
