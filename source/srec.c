@@ -100,7 +100,7 @@ SREC_Status_t SREC_parse(SREC_t* srec, uint8_t* line ){
 						if(0 == status){
 							if(checksum + sum == 0xff){
 								status = SREC_OK ;
-								srec->byte_count -= 3 ;
+								srec->byte_count -= (address_len + 1) ;
 							}
 							else status = SREC_ERR_CHECKSUM ;
 						}

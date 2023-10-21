@@ -103,6 +103,15 @@ void PORT_InitPin(PORT_Type* PORTx, PORT_PinNumberType pinnum, const PORT_PinCon
 
 void PORT_DenitPin(PORT_Type* PORTx, PORT_PinNumberType pinnum)
 {
+	if (PORTx == PORTA)
+	{
+		NVIC_DisableIRQ(PORTA_IRQn);
+	}
+	if (PORTx == PORTC || PORTx == PORTD)
+	{
+		NVIC_DisableIRQ(PORTC_PORTD_IRQn);
+	}
+
 	PORT_SetAlternateMode(PORTx,pinnum, PORT_AFT_0) ;
 	// Select Pull resistor
 	PORT_SetPullMode(PORTx, pinnum, PORT_NOPULL) ;
@@ -110,6 +119,7 @@ void PORT_DenitPin(PORT_Type* PORTx, PORT_PinNumberType pinnum)
 	PORT_SetSlewRate(PORTx, pinnum, PORT_SPEED_LOW) ;
 	// Disable interrupt
 	PORT_SetInterruptMode(PORTx, pinnum, PORT_INTERRUPT_DISABLE) ;
+
 }
 
 void EXTI_PORTA_SetCallback(EXTI_CallbackType callback){

@@ -56,6 +56,7 @@ typedef struct{
 }GPIO_PinConfigType;
 
 void GPIO_InitPin(GPIO_Type* GPIOx, GPIO_PinNumberType pinnum, GPIO_PinConfigType* config ) ;
+void GPIO_DenitPin(GPIO_Type* GPIOx, GPIO_PinNumberType pinnum) ;
 void GPIO_WritePin(GPIO_Type* GPIOx, GPIO_PinNumberType pinnum, GPIO_PinState state) ;
 void GPIO_TogglePin(GPIO_Type* GPIOx, GPIO_PinNumberType pinnum) ;
 GPIO_PinState GPIO_ReadPin(GPIO_Type* GPIOx, GPIO_PinNumberType pinnum) ;

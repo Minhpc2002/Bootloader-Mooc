@@ -13,20 +13,29 @@ typedef enum {
 #define START_COMMAND_MARK                   0x80U
 
 
+__attribute__ ((section("RamFunction")))
+void Flash_startCmd()
+{
+	FTFA->FSTAT = START_COMMAND_MARK;
+	while ((FTFA->FSTAT & FTFA_FSTAT_CCIF_MASK) == 0);
+}
+
+
+
 Flash_Status_t Flash_writeWord(uint32_t address, uint32_t data)
 {
 	Flash_Status_t status = FLASH_OK ;
 	uint8_t* ptr = (uint8_t*)&data ;
 
 	/* Wait previous command complete*/
-		while ((FTFA->FSTAT & FTFA_FSTAT_CCIF_MASK) == 0);
+	while ((FTFA->FSTAT & FTFA_FSTAT_CCIF_MASK) == 0);
 
-		/* Check Error from Previous Command */
-		if ( ((FTFA->FSTAT & FTFA_FSTAT_ACCERR_MASK) != 0 ) || ((FTFA->FSTAT & FTFA_FSTAT_FPVIOL_MASK) != 0 ))
-		{
-			// Clear error of previous command
-			FTFA->FSTAT = FTFA_FSTAT_CLEAR_ERROR_MARK;
-		}
+	/* Check Error from Previous Command */
+	if ( ((FTFA->FSTAT & FTFA_FSTAT_ACCERR_MASK) != 0 ) || ((FTFA->FSTAT & FTFA_FSTAT_FPVIOL_MASK) != 0 ))
+	{
+		// Clear error of previous command
+		FTFA->FSTAT = FTFA_FSTAT_CLEAR_ERROR_MARK;
+	}
 
 	/* Write Command and Parameter to FCCOB Registers */
 	FTFA->FCCOB0 = FCMD_PROGRAM_WORD;
@@ -40,20 +49,17 @@ Flash_Status_t Flash_writeWord(uint32_t address, uint32_t data)
 	FTFA->FCCOB7 = *ptr;
 
 	/* Clear CCIF Flag to launch command */
-	FTFA->FSTAT = START_COMMAND_MARK;
-
-	/* Wait previous command complete*/
-	while ((FTFA->FSTAT & FTFA_FSTAT_CCIF_MASK) == 0);
+	Flash_startCmd() ;
 
 	/* Check Error from Previous Command */
 	if ( ((FTFA->FSTAT & FTFA_FSTAT_ACCERR_MASK) != 0 ) || ((FTFA->FSTAT & FTFA_FSTAT_FPVIOL_MASK) != 0 ))
 	{
-		status = FLASH_WRITE_FAIL ;
-		// Clear error of previous command
-//		FTFA->FSTAT = FTFA_FSTAT_CLEAR_ERROR_MARK;
-
+		status = FLASH_ERR_INVALID_ADDRESS ;
 	}
-	else status = FLASH_OK ;
+	if( (FTFA->FSTAT & FTFA_FSTAT_MGSTAT0_MASK) != 0 )
+	{
+		status = FLASH_WRITE_FAIL ;
+	}
 
 	return status ;
 
@@ -67,35 +73,34 @@ Flash_Status_t Flash_eraseSector(uint8_t sector_num){
 	}
 	else
 	{
-	uint32_t address = sector_num * 1024 ;
-	/* Wait previous command complete*/
-			while ((FTFA->FSTAT & FTFA_FSTAT_CCIF_MASK) == 0);
+		uint32_t address = sector_num * 1024 ;
+		/* Wait previous command complete*/
+		while ((FTFA->FSTAT & FTFA_FSTAT_CCIF_MASK) == 0);
 
-			/* Check Error from Previous Command */
-			if ( ((FTFA->FSTAT & FTFA_FSTAT_ACCERR_MASK) != 0 ) || ((FTFA->FSTAT & FTFA_FSTAT_FPVIOL_MASK) != 0 ))
-			{
-				// Clear error of previous command
-				FTFA->FSTAT = FTFA_FSTAT_CLEAR_ERROR_MARK;
-			}
+		/* Check Error from Previous Command */
+		if ( ((FTFA->FSTAT & FTFA_FSTAT_ACCERR_MASK) != 0 ) || ((FTFA->FSTAT & FTFA_FSTAT_FPVIOL_MASK) != 0 ))
+		{
+			// Clear error of previous command
+			FTFA->FSTAT = FTFA_FSTAT_CLEAR_ERROR_MARK;
+		}
 
-	/* Write new command*/
+		/* Write new command*/
 		FTFA->FCCOB0 = FCMD_ERASE_SECTOR ;
 		FTFA->FCCOB1 = (uint8_t) (address >> 16) ;
 		FTFA->FCCOB2 = (uint8_t) (address >> 8) ;
 		FTFA->FCCOB3 = (uint8_t) (address ) ;
 
-	//Lauch command
-		FTFA->FSTAT = 0x80 ;
-		// Wait previous command complete
-		while((FTFA->FSTAT & FTFA_FSTAT_CCIF_MASK) == 0) ;
-		/* Check if there are errors from previous command */
-		if(((FTFA->FSTAT & FTFA_FSTAT_ACCERR_MASK) != 0) || ((FTFA->FSTAT & FTFA_FSTAT_FPVIOL_MASK) != 0) ){
+		/* Lauch command */
+		Flash_startCmd() ;
 
-//			FTFA->FSTAT = FTFA_FSTAT_CLEAR_ERROR_MARK ; // Clear error of previous command
-			status =  FLASH_ERASE_FAIL ;
+		/* Check Error from Previous Command */
+		if ( ((FTFA->FSTAT & FTFA_FSTAT_ACCERR_MASK) != 0 ) || ((FTFA->FSTAT & FTFA_FSTAT_FPVIOL_MASK) != 0 ))
+		{
+			status = FLASH_ERR_INVALID_ADDRESS ;
 		}
-		else{
-			status =  FLASH_OK ;
+		else if( (FTFA->FSTAT & FTFA_FSTAT_MGSTAT0_MASK) != 0 )
+		{
+			status = FLASH_ERASE_FAIL ;
 		}
 	}
 	return status ;
@@ -107,15 +112,12 @@ Flash_Status_t Flash_checkSectorsErased(uint8_t sector_num, uint8_t num_of_secto
 	uint32_t address = sector_num * 1024 ;
 	uint16_t num_of_long_words = num_of_sectors * 1024 / 4 ;
 
-	/* Wait previous command complete*/
-			while ((FTFA->FSTAT & FTFA_FSTAT_CCIF_MASK) == 0);
-
-			/* Check Error from Previous Command */
-			if ( ((FTFA->FSTAT & FTFA_FSTAT_ACCERR_MASK) != 0 ) || ((FTFA->FSTAT & FTFA_FSTAT_FPVIOL_MASK) != 0 ))
-			{
-				// Clear error of previous command
-				FTFA->FSTAT = FTFA_FSTAT_CLEAR_ERROR_MARK;
-			}
+	/* Check Error from Previous Command */
+	if ( ((FTFA->FSTAT & FTFA_FSTAT_ACCERR_MASK) != 0 ) || ((FTFA->FSTAT & FTFA_FSTAT_FPVIOL_MASK) != 0 ))
+	{
+		// Clear error of previous command
+		FTFA->FSTAT = FTFA_FSTAT_CLEAR_ERROR_MARK;
+	}
 
 	/* Write new command*/
 	FTFA->FCCOB0 = FCMD_READ_1S_SECTION ;
@@ -128,17 +130,20 @@ Flash_Status_t Flash_checkSectorsErased(uint8_t sector_num, uint8_t num_of_secto
 	FTFA->FCCOB6 = 0 ;
 
 	//Lauch command
-	FTFA->FSTAT = START_COMMAND_MARK ;
-	// Wait previous command complete
-	while((FTFA->FSTAT & FTFA_FSTAT_CCIF_MASK) == 0) ;
+	Flash_startCmd() ;
 
-	/* Check if there are errors from previous command */
-	if(((FTFA->FSTAT & FTFA_FSTAT_ACCERR_MASK) != 0) || ((FTFA->FSTAT & FTFA_FSTAT_FPVIOL_MASK) != 0) ){
+	/* Check Error from Previous Command */
+	if ( ((FTFA->FSTAT & FTFA_FSTAT_ACCERR_MASK) != 0 ) || ((FTFA->FSTAT & FTFA_FSTAT_FPVIOL_MASK) != 0 ))
+	{
+		status = FLASH_ERR_INVALID_ADDRESS ;
 
-//		FTFA->FSTAT = FTFA_FSTAT_CLEAR_ERROR_MARK ; // Clear error of previous command
-		status =  FLASH_ERR ;
+	}
+	else if( (FTFA->FSTAT & FTFA_FSTAT_MGSTAT0_MASK) != 0 )
+	{
+		status = FLASH_ERR ;
 	}
 	else{
+
 		// Check if flash was erased
 		if((FTFA->FSTAT & FTFA_FSTAT_MGSTAT0_MASK) != 0)
 		{
@@ -146,6 +151,7 @@ Flash_Status_t Flash_checkSectorsErased(uint8_t sector_num, uint8_t num_of_secto
 			status =  FLASH_CHECK_ERASE_FAIL ;
 		}
 	}
+
 	return status ;
 }
 

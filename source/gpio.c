@@ -19,6 +19,10 @@ void GPIO_InitPin(GPIO_Type* GPIOx, GPIO_PinNumberType pinnum, GPIO_PinConfigTyp
 	GPIO_SetPinMode(GPIOx, pinnum, config->direction) ;
 	if(config->direction == GPIO_OUTPUT) GPIO_WritePin(GPIOx, pinnum, config->state) ;
 }
+void GPIO_DenitPin(GPIO_Type* GPIOx, GPIO_PinNumberType pinnum)
+{
+	GPIO_SetPinMode(GPIOx, pinnum, GPIO_INPUT) ;
+}
 
 void GPIO_WritePin(GPIO_Type* GPIOx, GPIO_PinNumberType pinnum, GPIO_PinState state){
 	if(GPIO_PIN_SET == state) GPIOx->PDOR |= 1 << pinnum ;
