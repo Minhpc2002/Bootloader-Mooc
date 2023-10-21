@@ -89,12 +89,12 @@ void uart_init()
 	UART0->BDH &= UART_BDH_SBR_MASK ;
 
 	/* Baudrate = 9600 */
-	UART0->BDL  = 42 ;  // Baudrate = 9600
-	UART0->C4 = (UART0->C4 & ~UART0_C4_OSR_MASK) | UART0_C4_OSR(9) ;
+//	UART0->BDL  = 42 ;  // Baudrate = 9600
+//	UART0->C4 = (UART0->C4 & ~UART0_C4_OSR_MASK) | UART0_C4_OSR(9) ;
 
 	/* baudrate = 115200 */
-//	UART0->BDL  = 5 ;
-//	UART0->C4 = (UART0->C4 & ~UART0_C4_OSR_MASK) | UART0_C4_OSR(6) ;
+	UART0->BDL  = 5 ;
+	UART0->C4 = (UART0->C4 & ~UART0_C4_OSR_MASK) | UART0_C4_OSR(6) ;
 
 	/* baudrate = 57600 */
 //	UART0->BDL  = 7 ;

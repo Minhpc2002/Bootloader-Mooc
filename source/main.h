@@ -11,7 +11,7 @@
 #include "stdio.h"
 
 
-#define BOOT_WORD_ADDRESS (0x3800)  // sector 14
+#define BOOT_WORD_ADDRESS (0x3C00)  // sector 14
 
 
 #define BOTTOM_RAM_ADDRESS (0x1FFFE000)

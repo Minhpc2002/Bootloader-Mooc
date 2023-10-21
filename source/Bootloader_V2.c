@@ -3,6 +3,9 @@
 
 
 extern void (* const g_pfnVectors[])(void) ;
+extern uint32_t __base_RAM ;
+extern uint32_t __top_RAM ;
+extern uint32_t __top_Flash ;
 
 void (* copy[47])(void) __attribute__((section("relo_vector"))) ;
 
@@ -177,7 +180,7 @@ void main()
 			while(j --) ;
 
 			// Check if the LSB bit of address if 1 (Thumb instruction set)
-			if((reset_add & 1) && (reset_add <= 0x40000 ) && (Top_SP >= BOTTOM_RAM_ADDRESS) && (Top_SP <= TOP_RAM_ADDRESS) )
+			if((reset_add & 1) && (reset_add <= (uint32_t)&__top_Flash ) && (Top_SP >= (uint32_t)&__base_RAM) && (Top_SP <= (uint32_t)&__top_RAM ))
 			{
 
 				system_denit() ;
