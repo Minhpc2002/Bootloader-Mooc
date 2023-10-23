@@ -19,8 +19,8 @@ void main()
 	if(GPIO_PIN_RESET == GPIO_ReadPin(GPIOC, GPIO_PIN_3)){
 	// Bootloader mode
 
-		LOG(BLD_MESSAGE, "\n********* Bootloader V1 ***********\n \
-				"		 "Entered bootloader! \n") ;
+		LOG(BLD_MESSAGE, "\n********* Bootloader V2 ***********\n \
+				"		 "		  Entered bootloader! \n") ;
 
 		uint8_t buffer[100] ;
 		uint8_t ready_to_flash = 0 ;
@@ -51,8 +51,9 @@ void main()
 							if(FLASH_OK == Flash_checkSectorsErased(start_sector, num_of_sectors))
 							{
 								// Ready to flash
-								status = BLD_READDY_TO_FLASH ;
+								status = BLD_OK ;
 								ready_to_flash = 1 ;
+								LOG(BLD_MESSAGE, "Readdy to flash. Waitting....\n") ;
 							}
 							else{
 								status = BLD_HAVE_NOT_ERASE_YET ;
@@ -126,9 +127,10 @@ void main()
 									}
 								}
 							}
-							else if(S9 == data.type || S8 == data.type || S7 == data.type)
+							if(S9 == data.type || S8 == data.type || S7 == data.type)
 							{
-								status = BLD_FLASH_FINISH ;
+								LOG(BLD_MESSAGE, "Flash finished!\n") ;
+								status = BLD_OK ;
 								ready_to_flash = 0 ;
 							}
 						}
@@ -250,9 +252,10 @@ void system_denit()
 
 void LOG(BootloaderStatus_t status, char* str ){
 	char temp[10];
-	sprintf(temp, "[%d] ", status) ;
+
 	if(status != BLD_OK && status != BLD_MESSAGE)
 	{
+		sprintf(temp, "[%d] ", status) ;
 		uart_sendString(temp) ;
 	}
 

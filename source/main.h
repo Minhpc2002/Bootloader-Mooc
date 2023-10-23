@@ -8,7 +8,7 @@
 #include "uart.h"
 #include "srec.h"
 #include "flash.h"
-#include "stdio.h"
+#include <stdio.h>
 
 
 #define BOOT_WORD_ADDRESS (0x3C00)  // sector 14

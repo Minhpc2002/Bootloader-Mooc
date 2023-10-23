@@ -477,7 +477,7 @@ END GROUP
                 0x20006000                __top_SRAM = 0x20006000
                 0x20006000                __top_RAM = 0x20006000
 
-.text           0x00000000     0x35e8
+.text           0x00000000     0x3630
  FILL mask 0xff
                 0x00000000                __vectors_start__ = ABSOLUTE (.)
  *(SORT_BY_ALIGNMENT(.isr_vector))
@@ -487,7 +487,7 @@ END GROUP
                 0x000000c0                . = ALIGN (0x4)
                 0x000000c0                __section_table_start = .
                 0x000000c0                __data_section_table = .
-                0x000000c0        0x4 LONG 0x35e8 LOADADDR (.data)
+                0x000000c0        0x4 LONG 0x3630 LOADADDR (.data)
                 0x000000c4        0x4 LONG 0x1fffe1bc ADDR (.data)
                 0x000000c8        0x4 LONG 0x12c SIZEOF (.data)
                 0x000000cc                __data_section_table_end = .
@@ -585,268 +585,268 @@ END GROUP
  *(SORT_BY_ALIGNMENT(.text*))
  .text.__NVIC_SystemReset
                 0x00000410       0x24 ./source/Bootloader_V2.o
- .text.main     0x00000434      0x46c ./source/Bootloader_V2.o
+ .text.main     0x00000434      0x480 ./source/Bootloader_V2.o
                 0x00000434                main
  .text.system_init
-                0x000008a0       0xa8 ./source/Bootloader_V2.o
-                0x000008a0                system_init
+                0x000008b4       0xa8 ./source/Bootloader_V2.o
+                0x000008b4                system_init
  .text.system_denit
-                0x00000948       0x74 ./source/Bootloader_V2.o
-                0x00000948                system_denit
- .text.LOG      0x000009bc      0x120 ./source/Bootloader_V2.o
-                0x000009bc                LOG
+                0x0000095c       0x74 ./source/Bootloader_V2.o
+                0x0000095c                system_denit
+ .text.LOG      0x000009d0      0x120 ./source/Bootloader_V2.o
+                0x000009d0                LOG
  .text.Flash_writeWord
-                0x00000adc       0xd8 ./source/flash.o
-                0x00000adc                Flash_writeWord
+                0x00000af0       0xd8 ./source/flash.o
+                0x00000af0                Flash_writeWord
  .text.Flash_eraseSector
-                0x00000bb4       0xd0 ./source/flash.o
-                0x00000bb4                Flash_eraseSector
+                0x00000bc8       0xd0 ./source/flash.o
+                0x00000bc8                Flash_eraseSector
  .text.Flash_checkSectorsErased
-                0x00000c84      0x100 ./source/flash.o
-                0x00000c84                Flash_checkSectorsErased
+                0x00000c98      0x100 ./source/flash.o
+                0x00000c98                Flash_checkSectorsErased
  .text.__NVIC_EnableIRQ
-                0x00000d84       0x34 ./source/port.o
+                0x00000d98       0x34 ./source/port.o
  .text.__NVIC_DisableIRQ
-                0x00000db8       0x44 ./source/port.o
+                0x00000dcc       0x44 ./source/port.o
  .text.PORT_EnableClock
-                0x00000dfc       0xb8 ./source/port.o
+                0x00000e10       0xb8 ./source/port.o
  .text.PORT_SetAlternateMode
-                0x00000eb4       0x60 ./source/port.o
+                0x00000ec8       0x60 ./source/port.o
  .text.PORT_SetInterruptMode
-                0x00000f14       0x60 ./source/port.o
+                0x00000f28       0x60 ./source/port.o
  .text.PORT_InitPin
-                0x00000f74       0xa4 ./source/port.o
-                0x00000f74                PORT_InitPin
+                0x00000f88       0xa4 ./source/port.o
+                0x00000f88                PORT_InitPin
  .text.PORT_DenitPin
-                0x00001018       0x80 ./source/port.o
-                0x00001018                PORT_DenitPin
+                0x0000102c       0x80 ./source/port.o
+                0x0000102c                PORT_DenitPin
  .text.PORTA_IRQHandler
-                0x00001098       0x5c ./source/port.o
-                0x00001098                PORTA_IRQHandler
+                0x000010ac       0x5c ./source/port.o
+                0x000010ac                PORTA_IRQHandler
  .text.PORTC_PORTD_IRQHandler
-                0x000010f4       0xa8 ./source/port.o
-                0x000010f4                PORTC_PORTD_IRQHandler
+                0x00001108       0xa8 ./source/port.o
+                0x00001108                PORTC_PORTD_IRQHandler
  .text.HardFault_Handler
-                0x0000119c       0x38 ./source/semihost_hardfault.o
-                0x0000119c                HardFault_Handler
+                0x000011b0       0x38 ./source/semihost_hardfault.o
+                0x000011b0                HardFault_Handler
  .text.SREC_parse
-                0x000011d4      0x258 ./source/srec.o
-                0x000011d4                SREC_parse
+                0x000011e8      0x258 ./source/srec.o
+                0x000011e8                SREC_parse
  .text.__NVIC_EnableIRQ
-                0x0000142c       0x34 ./source/uart.o
+                0x00001440       0x34 ./source/uart.o
  .text.__NVIC_DisableIRQ
-                0x00001460       0x44 ./source/uart.o
+                0x00001474       0x44 ./source/uart.o
  .text.uart_init
-                0x000014a4      0x118 ./source/uart.o
-                0x000014a4                uart_init
+                0x000014b8      0x118 ./source/uart.o
+                0x000014b8                uart_init
  .text.uart_denit
-                0x000015bc       0xcc ./source/uart.o
-                0x000015bc                uart_denit
+                0x000015d0       0xcc ./source/uart.o
+                0x000015d0                uart_denit
  .text.uart_sendByte
-                0x00001688       0x8c ./source/uart.o
-                0x00001688                uart_sendByte
+                0x0000169c       0x8c ./source/uart.o
+                0x0000169c                uart_sendByte
  .text.uart_getByte
-                0x00001714       0x68 ./source/uart.o
-                0x00001714                uart_getByte
+                0x00001728       0x68 ./source/uart.o
+                0x00001728                uart_getByte
  .text.SystemInit
-                0x0000177c       0x1c ./CMSIS/system_MKL46Z4.o
-                0x0000177c                SystemInit
- .text._initio  0x00001798       0x7c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(initio.o)
-                0x00001798                _initio
+                0x00001790       0x1c ./CMSIS/system_MKL46Z4.o
+                0x00001790                SystemInit
+ .text._initio  0x000017ac       0x7c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(initio.o)
+                0x000017ac                _initio
  .text.__vfprintf
-                0x00001814      0xd88 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(printf.o)
-                0x00001814                __vfprintf
+                0x00001828      0xd88 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(printf.o)
+                0x00001828                __vfprintf
  .text._sprintf
-                0x0000259c       0x68 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(printf.o)
-                0x0000259c                _sprintf
- .text.setvbuf  0x00002604       0x4c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(setvbuf.o)
-                0x00002604                setvbuf
- .text.strlen   0x00002650       0x5c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(strlen.o)
-                0x00002650                strlen
+                0x000025b0       0x68 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(printf.o)
+                0x000025b0                _sprintf
+ .text.setvbuf  0x00002618       0x4c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(setvbuf.o)
+                0x00002618                setvbuf
+ .text.strlen   0x00002664       0x5c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(strlen.o)
+                0x00002664                strlen
  .text._deferredlazyseek
-                0x000026ac       0x40 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_deferredlazyseek.o)
-                0x000026ac                _deferredlazyseek
+                0x000026c0       0x40 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_deferredlazyseek.o)
+                0x000026c0                _deferredlazyseek
  .text.__flsbuf
-                0x000026ec      0x150 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_deferredlazyseek.o)
-                0x000026ec                __flsbuf
- .text._fdopen  0x0000283c       0x74 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_fdopen.o)
-                0x0000283c                _fdopen
- .text._fflush  0x000028b0       0x5c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_fflush.o)
-                0x000028b0                _fflush
+                0x00002700      0x150 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_deferredlazyseek.o)
+                0x00002700                __flsbuf
+ .text._fdopen  0x00002850       0x74 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_fdopen.o)
+                0x00002850                _fdopen
+ .text._fflush  0x000028c4       0x5c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_fflush.o)
+                0x000028c4                _fflush
  .text._Cwritebuf
-                0x0000290c       0x68 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_writebuf.o)
-                0x0000290c                _Cwritebuf
- .text.malloc   0x00002974       0xdc c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(alloc.o)
-                0x00002974                malloc
+                0x00002920       0x68 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_writebuf.o)
+                0x00002920                _Cwritebuf
+ .text.malloc   0x00002988       0xdc c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(alloc.o)
+                0x00002988                malloc
  .text._Csys_alloc
-                0x00002a50       0x20 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(alloc.o)
-                0x00002a50                _Csys_alloc
- .text.fclose   0x00002a70       0x5c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(fclose.o)
-                0x00002a70                fclose
- .text.fflush   0x00002acc       0x40 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(fflush.o)
-                0x00002acc                fflush
- .text.fseek    0x00002b0c       0xec c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(fseek.o)
-                0x00002b0c                fseek
- .text.ftell    0x00002bf8       0x4c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(ftell.o)
-                0x00002bf8                ftell
- .text._sbrk    0x00002c44       0x44 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_cr_sbrk.o)
-                0x00002c44                _sbrk
+                0x00002a64       0x20 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(alloc.o)
+                0x00002a64                _Csys_alloc
+ .text.fclose   0x00002a84       0x5c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(fclose.o)
+                0x00002a84                fclose
+ .text.fflush   0x00002ae0       0x40 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(fflush.o)
+                0x00002ae0                fflush
+ .text.fseek    0x00002b20       0xec c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(fseek.o)
+                0x00002b20                fseek
+ .text.ftell    0x00002c0c       0x4c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(ftell.o)
+                0x00002c0c                ftell
+ .text._sbrk    0x00002c58       0x44 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_cr_sbrk.o)
+                0x00002c58                _sbrk
  .text._do_fflush
-                0x00002c88       0x48 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_do_fflush.o)
-                0x00002c88                _do_fflush
+                0x00002c9c       0x48 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_do_fflush.o)
+                0x00002c9c                _do_fflush
  .text.__check_heap_overflow
-                0x00002cd0       0x18 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_cr_check_heap.o)
-                0x00002cd0                __check_heap_overflow
+                0x00002ce4       0x18 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(_cr_check_heap.o)
+                0x00002ce4                __check_heap_overflow
  .text.Flash_eraseMultiSectors
-                0x00002ce8       0x66 ./source/flash.o
-                0x00002ce8                Flash_eraseMultiSectors
+                0x00002cfc       0x66 ./source/flash.o
+                0x00002cfc                Flash_eraseMultiSectors
  .text.GPIO_SetPinMode
-                0x00002d4e       0x5c ./source/gpio.o
+                0x00002d62       0x5c ./source/gpio.o
  .text.GPIO_InitPin
-                0x00002daa       0x42 ./source/gpio.o
-                0x00002daa                GPIO_InitPin
+                0x00002dbe       0x42 ./source/gpio.o
+                0x00002dbe                GPIO_InitPin
  .text.GPIO_DenitPin
-                0x00002dec       0x24 ./source/gpio.o
-                0x00002dec                GPIO_DenitPin
+                0x00002e00       0x24 ./source/gpio.o
+                0x00002e00                GPIO_DenitPin
  .text.GPIO_WritePin
-                0x00002e10       0x5c ./source/gpio.o
-                0x00002e10                GPIO_WritePin
+                0x00002e24       0x5c ./source/gpio.o
+                0x00002e24                GPIO_WritePin
  .text.GPIO_ReadPin
-                0x00002e6c       0x2e ./source/gpio.o
-                0x00002e6c                GPIO_ReadPin
+                0x00002e80       0x2e ./source/gpio.o
+                0x00002e80                GPIO_ReadPin
  .text.PORT_SetPullMode
-                0x00002e9a       0xa0 ./source/port.o
+                0x00002eae       0xa0 ./source/port.o
  .text.PORT_SetSlewRate
-                0x00002f3a       0x5a ./source/port.o
+                0x00002f4e       0x5a ./source/port.o
  .text.getPinIntFlag
-                0x00002f94       0x30 ./source/port.o
+                0x00002fa8       0x30 ./source/port.o
  .text.clearPinIntFlag
-                0x00002fc4       0x30 ./source/port.o
+                0x00002fd8       0x30 ./source/port.o
  .text.digit_to_hex
-                0x00002ff4       0x4a ./source/srec.o
+                0x00003008       0x4a ./source/srec.o
  .text.hex_to_byte
-                0x0000303e       0x98 ./source/srec.o
-                0x0000303e                hex_to_byte
+                0x00003052       0x98 ./source/srec.o
+                0x00003052                hex_to_byte
  .text.uart_sendUntil
-                0x000030d6       0x74 ./source/uart.o
-                0x000030d6                uart_sendUntil
+                0x000030ea       0x74 ./source/uart.o
+                0x000030ea                uart_sendUntil
  .text.uart_getUntil
-                0x0000314a       0x8c ./source/uart.o
-                0x0000314a                uart_getUntil
+                0x0000315e       0x8c ./source/uart.o
+                0x0000315e                uart_getUntil
  .text.SystemInitHook
-                0x000031d6        0xa ./CMSIS/system_MKL46Z4.o
-                0x000031d6                SystemInitHook
- .text.__main   0x000031e0        0xc c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(_cr__main.o)
-                0x000031e0                __main
+                0x000031ea        0xa ./CMSIS/system_MKL46Z4.o
+                0x000031ea                SystemInitHook
+ .text.__main   0x000031f4        0xc c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(_cr__main.o)
+                0x000031f4                __main
  .text.no_fp_display
-                0x000031ec        0x4 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(printf.o)
- .text.memset   0x000031f0        0x8 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(memset.o)
-                0x000031f0                memset
- .text.free     0x000031f8       0x2c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(alloc.o)
-                0x000031f8                free
- .text.remove   0x00003224       0x12 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(remove.o)
-                0x00003224                remove
+                0x00003200        0x4 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(printf.o)
+ .text.memset   0x00003204        0x8 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(memset.o)
+                0x00003204                memset
+ .text.free     0x0000320c       0x2c c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(alloc.o)
+                0x0000320c                free
+ .text.remove   0x00003238       0x12 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(remove.o)
+                0x00003238                remove
  .text.__aeabi_division_idivmod
-                0x00003236       0x78 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(division_32.o)
-                0x00003236                __aeabi_idivmod
-                0x00003236                __aeabi_idiv
-                0x0000323c                __aeabi_uidivmod
-                0x0000323c                __aeabi_uidiv
+                0x0000324a       0x78 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(division_32.o)
+                0x0000324a                __aeabi_idivmod
+                0x0000324a                __aeabi_idiv
+                0x00003250                __aeabi_uidivmod
+                0x00003250                __aeabi_uidiv
  .text.__aeabi_division_idiv0
-                0x000032ae        0x2 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(division_idiv0.o)
-                0x000032ae                __aeabi_idiv0
+                0x000032c2        0x2 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(division_idiv0.o)
+                0x000032c2                __aeabi_idiv0
  .text.__aeabi_llong_lmul
-                0x000032b0       0x2e c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(llong.o)
-                0x000032b0                __aeabi_lmul
+                0x000032c4       0x2e c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(llong.o)
+                0x000032c4                __aeabi_lmul
  .text.__aeabi_memset_lowlevel
-                0x000032de       0x2a c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(memcpy.o)
-                0x000032de                __aeabi_lowlevel_memset
+                0x000032f2       0x2a c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(memcpy.o)
+                0x000032f2                __aeabi_lowlevel_memset
  .text.__gnu_thumb1_case_uqi
-                0x00003308       0x10 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(thumb1_switch_helpers.o)
-                0x00003308                __gnu_thumb1_case_uqi
+                0x0000331c       0x10 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(thumb1_switch_helpers.o)
+                0x0000331c                __gnu_thumb1_case_uqi
  .text.__gnu_thumb1_case_shi
-                0x00003318       0x10 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(thumb1_switch_helpers.o)
-                0x00003318                __gnu_thumb1_case_shi
+                0x0000332c       0x10 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(thumb1_switch_helpers.o)
+                0x0000332c                __gnu_thumb1_case_shi
  .text.__gnu_thumb1_case_uhi
-                0x00003328       0x10 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(thumb1_switch_helpers.o)
-                0x00003328                __gnu_thumb1_case_uhi
+                0x0000333c       0x10 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp\libcr_eabihelpers.a(thumb1_switch_helpers.o)
+                0x0000333c                __gnu_thumb1_case_uhi
  .text.__sys_appexit
-                0x00003338        0x2 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_appexit.o)
-                0x00003338                __sys_appexit
-                0x00003338                __exit
+                0x0000334c        0x2 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_appexit.o)
+                0x0000334c                __sys_appexit
+                0x0000334c                __exit
  .text.__sys_close
-                0x0000333a        0x6 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_close.o)
-                0x0000333a                __sys_close
+                0x0000334e        0x6 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_close.o)
+                0x0000334e                __sys_close
  .text.__sys_flen
-                0x00003340        0x6 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_flen.o)
-                0x00003340                __sys_flen
+                0x00003354        0x6 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_flen.o)
+                0x00003354                __sys_flen
  .text.__sys_istty
-                0x00003346        0x6 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_istty.o)
-                0x00003346                __sys_istty
+                0x0000335a        0x6 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_istty.o)
+                0x0000335a                __sys_istty
  .text.__sys_remove
-                0x0000334c        0x6 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_remove.o)
-                0x0000334c                __sys_remove
+                0x00003360        0x6 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_remove.o)
+                0x00003360                __sys_remove
  .text.__sys_seek
-                0x00003352        0x6 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_seek.o)
-                0x00003352                __sys_seek
+                0x00003366        0x6 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_seek.o)
+                0x00003366                __sys_seek
  .text.__sys_tmpnam
-                0x00003358        0x6 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_tmpnam.o)
-                0x00003358                __sys_tmpnam
+                0x0000336c        0x6 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_tmpnam.o)
+                0x0000336c                __sys_tmpnam
  .text.__sys_write
-                0x0000335e        0x4 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_write.o)
-                0x0000335e                __sys_write
- *fill*         0x00003362        0x6 ff
+                0x00003372        0x4 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__sys_write.o)
+                0x00003372                __sys_write
+ *fill*         0x00003376        0x2 ff
  .text.__sys_write.__stub
-                0x00003368       0x10 linker stubs
+                0x00003378       0x10 linker stubs
  *(SORT_BY_ALIGNMENT(.rodata) SORT_BY_ALIGNMENT(.rodata.*) SORT_BY_ALIGNMENT(.constdata) SORT_BY_ALIGNMENT(.constdata.*))
- *fill*         0x00003378        0x0 ff
+ *fill*         0x00003388        0x0 ff
  .rodata.main.str1.4
-                0x00003378       0xee ./source/Bootloader_V2.o
- *fill*         0x00003466        0x2 ff
- .rodata.main   0x00003468       0x40 ./source/Bootloader_V2.o
- .rodata        0x000034a8        0x4 ./source/Bootloader_V2.o
+                0x00003388      0x126 ./source/Bootloader_V2.o
+ *fill*         0x000034ae        0x2 ff
+ .rodata.main   0x000034b0       0x40 ./source/Bootloader_V2.o
+ .rodata        0x000034f0        0x4 ./source/Bootloader_V2.o
  .rodata.LOG.str1.4
-                0x000034ac       0xb8 ./source/Bootloader_V2.o
- .rodata.LOG    0x00003564       0x2c ./source/Bootloader_V2.o
+                0x000034f4       0xb8 ./source/Bootloader_V2.o
+ .rodata.LOG    0x000035ac       0x2c ./source/Bootloader_V2.o
  .rodata.__num_Ciob_streams
-                0x00003590        0x4 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__ciob.o)
-                0x00003590                __num_Ciob_streams
+                0x000035d8        0x4 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_nohost_nf.a(__ciob.o)
+                0x000035d8                __num_Ciob_streams
  .rodata._initio.str1.1
-                0x00003594        0x4 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(initio.o)
+                0x000035dc        0x4 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(initio.o)
  .rodata.__vfprintf.str1.1
-                0x00003598       0x37 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(printf.o)
+                0x000035e0       0x37 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(printf.o)
                                  0x38 (size before relaxing)
  .rodata._Csys_alloc.str1.1
-                0x000035cf       0x18 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(alloc.o)
-                0x000035e8                . = ALIGN (0x4)
- *fill*         0x000035e7        0x1 ff
+                0x00003617       0x18 c:/nxp/mcuxpressoide_11.8.0_1165/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.8.0.202306131047/tools/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_c.a(alloc.o)
+                0x00003630                . = ALIGN (0x4)
+ *fill*         0x0000362f        0x1 ff
 
-.glue_7         0x000035e8        0x0
- .glue_7        0x000035e8        0x0 linker stubs
+.glue_7         0x00003630        0x0
+ .glue_7        0x00003630        0x0 linker stubs
 
-.glue_7t        0x000035e8        0x0
- .glue_7t       0x000035e8        0x0 linker stubs
+.glue_7t        0x00003630        0x0
+ .glue_7t       0x00003630        0x0 linker stubs
 
-.vfp11_veneer   0x000035e8        0x0
- .vfp11_veneer  0x000035e8        0x0 linker stubs
+.vfp11_veneer   0x00003630        0x0
+ .vfp11_veneer  0x00003630        0x0 linker stubs
 
-.v4_bx          0x000035e8        0x0
- .v4_bx         0x000035e8        0x0 linker stubs
+.v4_bx          0x00003630        0x0
+ .v4_bx         0x00003630        0x0 linker stubs
 
-.iplt           0x000035e8        0x0
- .iplt          0x000035e8        0x0 ./startup/startup_mkl46z4.o
+.iplt           0x00003630        0x0
+ .iplt          0x00003630        0x0 ./startup/startup_mkl46z4.o
 
-.rel.dyn        0x000035e8        0x0
- .rel.iplt      0x000035e8        0x0 ./startup/startup_mkl46z4.o
+.rel.dyn        0x00003630        0x0
+ .rel.iplt      0x00003630        0x0 ./startup/startup_mkl46z4.o
 
 .ARM.extab
  *(SORT_BY_ALIGNMENT(.ARM.extab*) SORT_BY_ALIGNMENT(.gnu.linkonce.armextab.*))
 
-.ARM.exidx      0x000035e8        0x0
-                0x000035e8                __exidx_start = .
+.ARM.exidx      0x00003630        0x0
+                0x00003630                __exidx_start = .
  *(SORT_BY_ALIGNMENT(.ARM.exidx*) SORT_BY_ALIGNMENT(.gnu.linkonce.armexidx.*))
-                0x000035e8                __exidx_end = .
-                0x000035e8                _etext = .
+                0x00003630                __exidx_end = .
+                0x00003630                _etext = .
 
 .m_usb_data
  *(SORT_BY_ALIGNMENT(m_usb_bdt))
@@ -869,7 +869,7 @@ END GROUP
  relo_vector    0x1fffe100       0xbc ./source/Bootloader_V2.o
                 0x1fffe100                copy
 
-.data           0x1fffe1bc      0x12c load address 0x000035e8
+.data           0x1fffe1bc      0x12c load address 0x00003630
  FILL mask 0xff
                 0x1fffe1bc                _data = .
                 [!provide]                PROVIDE (__start_data_RAM = .)
@@ -889,7 +889,7 @@ END GROUP
                 [!provide]                PROVIDE (__end_data_RAM = .)
                 [!provide]                PROVIDE (__end_data_SRAM = .)
 
-.igot.plt       0x1fffe2e8        0x0 load address 0x00003714
+.igot.plt       0x1fffe2e8        0x0 load address 0x0000375c
  .igot.plt      0x1fffe2e8        0x0 ./startup/startup_mkl46z4.o
 
 .bss            0x1fffe2e8      0x1a8
@@ -958,22 +958,22 @@ END GROUP
                 0x20005800                . = ALIGN (0x4)
                 0x20006000                _vStackTop = (. + _StackSize)
                 0x00000000                _image_start = LOADADDR (.text)
-                0x00003714                _image_end = (LOADADDR (.data) + SIZEOF (.data))
-                0x00003714                _image_size = (_image_end - _image_start)
+                0x0000375c                _image_end = (LOADADDR (.data) + SIZEOF (.data))
+                0x0000375c                _image_size = (_image_end - _image_start)
 OUTPUT(Bootloader.axf elf32-littlearm)
 LOAD linker stubs
 
-.debug_info     0x00000000     0x352a
+.debug_info     0x00000000     0x352e
  .debug_info    0x00000000      0x63a ./startup/startup_mkl46z4.o
- .debug_info    0x0000063a      0xda4 ./source/Bootloader_V2.o
- .debug_info    0x000013de      0x371 ./source/flash.o
- .debug_info    0x0000174f      0x39f ./source/gpio.o
- .debug_info    0x00001aee       0x54 ./source/mtb.o
- .debug_info    0x00001b42      0xacd ./source/port.o
- .debug_info    0x0000260f       0x3d ./source/semihost_hardfault.o
- .debug_info    0x0000264c      0x28f ./source/srec.o
- .debug_info    0x000028db      0x882 ./source/uart.o
- .debug_info    0x0000315d      0x3cd ./CMSIS/system_MKL46Z4.o
+ .debug_info    0x0000063a      0xda8 ./source/Bootloader_V2.o
+ .debug_info    0x000013e2      0x371 ./source/flash.o
+ .debug_info    0x00001753      0x39f ./source/gpio.o
+ .debug_info    0x00001af2       0x54 ./source/mtb.o
+ .debug_info    0x00001b46      0xacd ./source/port.o
+ .debug_info    0x00002613       0x3d ./source/semihost_hardfault.o
+ .debug_info    0x00002650      0x28f ./source/srec.o
+ .debug_info    0x000028df      0x882 ./source/uart.o
+ .debug_info    0x00003161      0x3cd ./CMSIS/system_MKL46Z4.o
 
 .debug_abbrev   0x00000000      0xe6b
  .debug_abbrev  0x00000000      0x17f ./startup/startup_mkl46z4.o
@@ -1015,25 +1015,25 @@ LOAD linker stubs
                 0x00000388       0x30 ./CMSIS/system_MKL46Z4.o
 
 .debug_rnglists
-                0x00000000      0x2ba
+                0x00000000      0x2ad
  .debug_rnglists
                 0x00000000      0x103 ./startup/startup_mkl46z4.o
  .debug_rnglists
-                0x00000103       0x4a ./source/Bootloader_V2.o
+                0x00000103       0x3d ./source/Bootloader_V2.o
  .debug_rnglists
-                0x0000014d       0x2e ./source/flash.o
+                0x00000140       0x2e ./source/flash.o
  .debug_rnglists
-                0x0000017b       0x31 ./source/gpio.o
+                0x0000016e       0x31 ./source/gpio.o
  .debug_rnglists
-                0x000001ac       0x72 ./source/port.o
+                0x0000019f       0x72 ./source/port.o
  .debug_rnglists
-                0x0000021e       0x13 ./source/semihost_hardfault.o
+                0x00000211       0x13 ./source/semihost_hardfault.o
  .debug_rnglists
-                0x00000231       0x21 ./source/srec.o
+                0x00000224       0x21 ./source/srec.o
  .debug_rnglists
-                0x00000252       0x48 ./source/uart.o
+                0x00000245       0x48 ./source/uart.o
  .debug_rnglists
-                0x0000029a       0x20 ./CMSIS/system_MKL46Z4.o
+                0x0000028d       0x20 ./CMSIS/system_MKL46Z4.o
 
 .debug_macro    0x00000000     0xb768
  .debug_macro   0x00000000       0x29 ./startup/startup_mkl46z4.o
@@ -1066,17 +1066,17 @@ LOAD linker stubs
  .debug_macro   0x0000a53e       0x10 ./CMSIS/system_MKL46Z4.o
  .debug_macro   0x0000a54e     0x121a ./CMSIS/system_MKL46Z4.o
 
-.debug_line     0x00000000     0x2303
+.debug_line     0x00000000     0x22f7
  .debug_line    0x00000000      0x310 ./startup/startup_mkl46z4.o
- .debug_line    0x00000310      0x55f ./source/Bootloader_V2.o
- .debug_line    0x0000086f      0x4c7 ./source/flash.o
- .debug_line    0x00000d36      0x3a1 ./source/gpio.o
- .debug_line    0x000010d7       0xd1 ./source/mtb.o
- .debug_line    0x000011a8      0x585 ./source/port.o
- .debug_line    0x0000172d       0x59 ./source/semihost_hardfault.o
- .debug_line    0x00001786      0x37e ./source/srec.o
- .debug_line    0x00001b04      0x4b0 ./source/uart.o
- .debug_line    0x00001fb4      0x34f ./CMSIS/system_MKL46Z4.o
+ .debug_line    0x00000310      0x553 ./source/Bootloader_V2.o
+ .debug_line    0x00000863      0x4c7 ./source/flash.o
+ .debug_line    0x00000d2a      0x3a1 ./source/gpio.o
+ .debug_line    0x000010cb       0xd1 ./source/mtb.o
+ .debug_line    0x0000119c      0x585 ./source/port.o
+ .debug_line    0x00001721       0x59 ./source/semihost_hardfault.o
+ .debug_line    0x0000177a      0x37e ./source/srec.o
+ .debug_line    0x00001af8      0x4b0 ./source/uart.o
+ .debug_line    0x00001fa8      0x34f ./CMSIS/system_MKL46Z4.o
 
 .debug_str      0x00000000    0x4b4b9
  .debug_str     0x00000000     0x31c9 ./startup/startup_mkl46z4.o

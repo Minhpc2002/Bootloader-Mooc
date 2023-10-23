@@ -229,5 +229,5 @@
     </mapAttribute>
     <stringAttribute key="org.eclipse.dsf.launch.MEMORY_BLOCKS" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&lt;memoryBlockExpressionList context=&quot;reserved-for-future-use&quot;/&gt;"/>
     <stringAttribute key="process_factory_id" value="org.eclipse.cdt.dsf.gdb.GdbProcessFactory"/>
-    <stringAttribute key="saved_expressions&lt;seperator&gt;Unknown" value="0x1fffe1bd,0x1770,0x20000,0x3800,0x260f4,0x00,0x32000,0x3200,20000,0x641aa0,0x1424,0x33424,0x33410,0x349fa,0x349f0"/>
+    <stringAttribute key="saved_expressions&lt;seperator&gt;Unknown" value="0x1fffe1bd,0x1770,0x20000,0x3800,0x260f4,0x00,0x32000,0x3200,20000,0x641aa0,0x1424,0x33424,0x33410,0xfafa,0xf1fa"/>
 </launchConfiguration>
